@@ -1,10 +1,6 @@
 package com.extensao.faturo.ui.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -16,6 +12,8 @@ import com.extensao.faturo.data.repository.FaturoRepository
 import com.extensao.faturo.ui.screens.FichaTecnicaScreen
 import com.extensao.faturo.ui.screens.InsumosScreen
 import com.extensao.faturo.ui.screens.ProdutosScreen
+import com.extensao.faturo.ui.screens.SobreScreen
+import com.extensao.faturo.ui.screens.SplashScreen // IMPORTAÇÃO DA NOVA TELA
 import com.extensao.faturo.ui.viewmodel.FichaTecnicaViewModel
 import com.extensao.faturo.ui.viewmodel.FichaTecnicaViewModelFactory
 import com.extensao.faturo.ui.viewmodel.InsumosViewModel
@@ -37,17 +35,28 @@ fun FaturoNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Dashboard.route,
+        startDestination = Screen.Splash.route,
         modifier = modifier
     ) {
 
-        // ================= ROTAS ================= //
+        composable(route = Screen.Splash.route) {
+            SplashScreen(
+                onCarregamentoFinalizado = {
+                    navController.navigate(Screen.Dashboard.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                }
+            )
+        }
 
         composable(route = Screen.Dashboard.route) {
             val viewModel: DashboardViewModel = viewModel(
                 factory = DashboardViewModelFactory(repository)
             )
-            DashboardScreen(viewModel = viewModel)
+            DashboardScreen(
+                viewModel = viewModel,
+                onNavigateToSobre = { navController.navigate(Screen.Sobre.route) }
+            )
         }
 
         composable(route = Screen.Produtos.route) {
@@ -58,7 +67,8 @@ fun FaturoNavGraph(
                 viewModel = viewModel,
                 onProdutoClick = { produtoId ->
                     navController.navigate(Screen.FichaTecnica.criarRota(produtoId))
-                }
+                },
+                onNavigateToSobre = { navController.navigate(Screen.Sobre.route) }
             )
         }
 
@@ -66,7 +76,10 @@ fun FaturoNavGraph(
             val viewModel: InsumosViewModel = viewModel(
                 factory = InsumosViewModelFactory(repository)
             )
-            InsumosScreen(viewModel = viewModel)
+            InsumosScreen(
+                viewModel = viewModel,
+                onNavigateToSobre = { navController.navigate(Screen.Sobre.route) }
+            )
         }
 
         composable(
@@ -86,7 +99,14 @@ fun FaturoNavGraph(
             val viewModel: ConfiguracaoViewModel = viewModel(
                 factory = ConfiguracaoViewModelFactory(repository)
             )
-            ConfiguracoesScreen(viewModel = viewModel)
+            ConfiguracoesScreen(
+                viewModel = viewModel,
+                onNavigateToSobre = { navController.navigate(Screen.Sobre.route) }
+            )
+        }
+
+        composable(route = Screen.Sobre.route) {
+            SobreScreen(onVoltar = { navController.popBackStack() })
         }
     }
 }

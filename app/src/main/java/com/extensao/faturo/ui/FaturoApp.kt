@@ -3,6 +3,7 @@ package com.extensao.faturo.ui
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Sell
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material.icons.filled.Store
@@ -82,8 +83,8 @@ fun FaturoApp(repository: FaturoRepository) {
 
                     // Botão: Configurações
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.Settings, contentDescription = "Ajustes") },
-                        label = { Text("Ajustes") },
+                        icon = { Icon(Icons.Default.Sell, contentDescription = "Ajustes") },
+                        label = { Text("Meu valor") },
                         selected = rotaAtual == Screen.Configuracoes.route,
                         onClick = {
                             navController.navigate(Screen.Configuracoes.route) {

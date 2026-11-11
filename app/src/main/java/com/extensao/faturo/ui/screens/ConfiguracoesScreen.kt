@@ -2,6 +2,9 @@ package com.extensao.faturo.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -10,27 +13,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.extensao.faturo.ui.MascaraDinheiro
 import com.extensao.faturo.ui.viewmodel.ConfiguracaoViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConfiguracoesScreen(viewModel: ConfiguracaoViewModel) {
+fun ConfiguracoesScreen(viewModel: ConfiguracaoViewModel, onNavigateToSobre: () -> Unit) {
     val configuracao by viewModel.configuracao.collectAsState()
 
-    // Estados locais para os campos de texto
-    var salario by remember(configuracao) { mutableStateOf(configuracao?.salarioDesejado?.toString() ?: "") }
-    var despesas by remember(configuracao) { mutableStateOf(configuracao?.despesasFixasMensais?.toString() ?: "") }
+    // Usando String crua para a máscara formatar corretamente
+    var salario by remember(configuracao) {
+        mutableStateOf(if (configuracao != null && configuracao!!.salarioDesejado > 0) String.format(java.util.Locale.US, "%.2f", configuracao!!.salarioDesejado).replace(".", "") else "")
+    }
+    var despesas by remember(configuracao) {
+        mutableStateOf(if (configuracao != null && configuracao!!.despesasFixasMensais > 0) String.format(java.util.Locale.US, "%.2f", configuracao!!.despesasFixasMensais).replace(".", "") else "")
+    }
     var horasDia by remember(configuracao) { mutableStateOf(configuracao?.horasPorDia?.toString() ?: "") }
     var diasSemana by remember(configuracao) { mutableStateOf(configuracao?.diasPorSemana?.toString() ?: "") }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Meu Negócio") },
+                title = { Text("Meu Valor") },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                ),
+                actions = {
+                    IconButton(onClick = onNavigateToSobre) {
+                        Icon(Icons.Default.Settings, contentDescription = "Configurações")
+                    }
+                }
             )
         }
     ) { paddingValues ->
@@ -48,18 +61,20 @@ fun ConfiguracoesScreen(viewModel: ConfiguracaoViewModel) {
 
             OutlinedTextField(
                 value = salario,
-                onValueChange = { salario = it },
+                onValueChange = { novoTexto -> salario = novoTexto.filter { it.isDigit() } },
                 label = { Text("Qual salário você deseja tirar no mês? (R$)") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                visualTransformation = MascaraDinheiro(),
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
 
             OutlinedTextField(
                 value = despesas,
-                onValueChange = { despesas = it },
+                onValueChange = { novoTexto -> despesas = novoTexto.filter { it.isDigit() } },
                 label = { Text("Despesas fixas do mês (Luz, internet, etc) (R$)") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                visualTransformation = MascaraDinheiro(),
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -85,8 +100,8 @@ fun ConfiguracoesScreen(viewModel: ConfiguracaoViewModel) {
 
             Button(
                 onClick = {
-                    val s = salario.replace(",", ".").toDoubleOrNull() ?: 0.0
-                    val d = despesas.replace(",", ".").toDoubleOrNull() ?: 0.0
+                    val s = (salario.toDoubleOrNull() ?: 0.0) / 100.0
+                    val d = (despesas.toDoubleOrNull() ?: 0.0) / 100.0
                     val h = horasDia.toIntOrNull() ?: 0
                     val ds = diasSemana.toIntOrNull() ?: 0
                     viewModel.salvarConfiguracao(s, d, h, ds)

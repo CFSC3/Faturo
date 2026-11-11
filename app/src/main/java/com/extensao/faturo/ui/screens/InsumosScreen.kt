@@ -9,6 +9,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,13 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.extensao.faturo.data.local.entity.InsumoEntity
-import com.extensao.faturo.ui.MascaraDinheiro // IMPORTAÇÃO DA CLASSE SEPARADA
+import com.extensao.faturo.ui.MascaraDinheiro
 import com.extensao.faturo.ui.viewmodel.InsumosViewModel
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InsumosScreen(viewModel: InsumosViewModel) {
+fun InsumosScreen(viewModel: InsumosViewModel, onNavigateToSobre: () -> Unit) {
     val insumos by viewModel.insumos.collectAsState(initial = emptyList())
 
     var mostrarDialogCadastro by remember { mutableStateOf(false) }
@@ -39,7 +41,12 @@ fun InsumosScreen(viewModel: InsumosViewModel) {
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                ),
+                actions = {
+                    IconButton(onClick = onNavigateToSobre) {
+                        Icon(Icons.Default.Settings, contentDescription = "Configurações")
+                    }
+                }
             )
         },
         floatingActionButton = {

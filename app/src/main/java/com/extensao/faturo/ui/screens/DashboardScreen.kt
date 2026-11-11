@@ -4,6 +4,9 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,7 +22,7 @@ import com.extensao.faturo.ui.viewmodel.ResumoMes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(viewModel: DashboardViewModel) {
+fun DashboardScreen(viewModel: DashboardViewModel, onNavigateToSobre: () -> Unit) {
     val resumo by viewModel.resumoAtual.collectAsState()
     val mesesDisponiveis by viewModel.mesesDisponiveis.collectAsState()
     val mesSelecionado by viewModel.mesSelecionado.collectAsState()
@@ -34,7 +37,12 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                ),
+                actions = {
+                    IconButton(onClick = onNavigateToSobre) {
+                        Icon(Icons.Default.Settings, contentDescription = "Configurações")
+                    }
+                }
             )
         }
     ) { paddingValues ->

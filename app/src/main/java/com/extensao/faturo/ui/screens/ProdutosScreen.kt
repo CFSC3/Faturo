@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,7 +30,8 @@ import com.extensao.faturo.ui.viewmodel.ProdutosViewModel
 @Composable
 fun ProdutosScreen(
     viewModel: ProdutosViewModel,
-    onProdutoClick: (Long) -> Unit
+    onProdutoClick: (Long) -> Unit,
+    onNavigateToSobre: () -> Unit
 ) {
     val produtos by viewModel.produtos.collectAsState(initial = emptyList())
     val statusEstoque by viewModel.statusEstoque.collectAsState()
@@ -43,7 +46,12 @@ fun ProdutosScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                ),
+                actions = {
+                    IconButton(onClick = onNavigateToSobre) {
+                        Icon(Icons.Default.Settings, contentDescription = "Configurações")
+                    }
+                }
             )
         },
         floatingActionButton = {
@@ -84,7 +92,7 @@ fun ProdutosScreen(
                             viewModel.registrarVenda(
                                 produto = produto,
                                 onSucesso = { Toast.makeText(context, "Venda registrada! Insumos deduzidos.", Toast.LENGTH_SHORT).show() },
-                                onErro = { mensagem -> Toast.makeText(context, "Atenção: $mensagem", Toast.LENGTH_LONG).show() } // CORREÇÃO NO TOAST
+                                onErro = { mensagem -> Toast.makeText(context, "Atenção: $mensagem", Toast.LENGTH_LONG).show() }
                             )
                         },
                         onDelete = { viewModel.deletarProduto(produto) }
