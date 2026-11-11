@@ -20,7 +20,7 @@ O **Faturô** é um aplicativo Android nativo desenvolvido para ajudar artesãos
 
 Experimente o Faturô agora mesmo no seu celular Android!
 
-<a href="COLE_O_LINK_DO_SEU_APK_AQUI">
+<a href="https://github.com/CFSC3/Faturo/releases/download/v1.0.0/faturo.apk">
   <img src="https://img.shields.io/badge/BAIXE_O_APLICATIVO_CLICANDO_AQUI-FF9800?style=for-the-badge&logo=android&logoColor=white" alt="Download APK" />
 </a>
 
