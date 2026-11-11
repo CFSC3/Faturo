@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="app/src/main/res/drawable/logo.jpg" alt="Faturô Logo" width="120">
+  <img src="app/src/main/res/drawable/logo.jpeg" alt="Faturô Logo" width="120">
   <br>
   Faturô - Valorizando seu trabalho
 </h1>
