@@ -59,11 +59,9 @@ O Faturô foi construído seguindo as melhores práticas do desenvolvimento Andr
 
 ## 📸 Telas do Aplicativo
 
-| Visão Financeira | Meus Produtos | Ficha Técnica | Meus Materiais |
-| :---: | :---: | :---: | :---: |
-| <img src="COLE_O_LINK_DA_IMAGEM_1_AQUI" width="220"> | <img src="COLE_O_LINK_DA_IMAGEM_2_AQUI" width="220"> | <img src="COLE_O_LINK_DA_IMAGEM_3_AQUI" width="220"> | <img src="COLE_O_LINK_DA_IMAGEM_4_AQUI" width="220"> |
-
-*(Dica: Arraste os prints das telas do seu aplicativo para esta área de edição no GitHub para substituir os links de imagem acima)*
+| Visão Financeira | Meus Produtos | Ficha Técnica | Meus Materiais | Meu Valor |
+| :---: | :---: | :---: | :---: | :---: |
+| <img src="https://github.com/CFSC3/Faturo/blob/main/imagens/img1.jpg" width="220"> | <img src="https://github.com/CFSC3/Faturo/blob/main/imagens/img2.jpg" width="220"> | <img src="https://github.com/CFSC3/Faturo/blob/main/imagens/img2.1.jpg" width="220"> | <img src="https://github.com/CFSC3/Faturo/blob/main/imagens/img3.jpg" width="220"> | <img src="https://github.com/CFSC3/Faturo/blob/main/imagens/img4.jpg" width="220"> |
 
 ---
 
